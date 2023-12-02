@@ -87,9 +87,13 @@ except:
 
 try:
     fileName = sys.argv[5]
+    if len(sys.argv) == 6:
+        print("[ERROR]: Please specify your output output Directory")        
+        print(usage)        
+        exit(1)
+    else:
+        pass
 except:
-    print("[ERROR]: Please specify your output files name")
-    print(usage)
     exit(1)   
 
 try:
