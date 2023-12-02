@@ -28,7 +28,7 @@ genomescratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <outDir> [
 
 **Example Usage:**
 ```bash
-genomescratch -l 100 -d DNA -n myGenome -o output_directory -t GTF -ng 50 -gl 800
+genomescratch -l 100 -d -n myGenome -o output_directory -t -ng 50 -gl 800
 ```
 
 **Authorship:**
