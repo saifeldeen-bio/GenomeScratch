@@ -1,0 +1,260 @@
+#!/usr/bin/python3
+
+############################################## About Author #########################################
+# Created by: Saifeldeen M. Ibrahim                                                                 #
+# Emails: saifeldeen.ibrahim [at] ageri.sci.eg or saifeldeenmib99 [at] gmail.com                    #
+# License: MIT License - https://opensource.org/licenses/MIT                                        #
+# Disclaimer: The script comes with no warranty, use at your own risk                               #
+# This script is not intended for commercial use                                                    #
+#####################################################################################################
+
+########################################## Import Required Modules ##################################
+import random
+import sys
+import os
+########################################## info Message ##################################
+helptext = """GenomeScratch is a user-friendly tool designed for effortlessly generating virtual reference genomes, accompanied by GFF and GTF files. 
+Tailored for testing workflows and training purposes, it enables users to simulate genomic scenarios and optimize bioinformatics processes in a controlled, lightweight environment. 
+This tool is especially valuable when high-performance computing resources are scarce, allowing researchers to refine their methodologies efficiently before transitioning to real data. 
+Whether for educational use or practical testing, GenomeScratch provides a convenient solution for genomics and bioinformatics applications.
+
+Usage: GenomeScratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <outDir> [optional: -t/-f <GTF/GFF> -ng <nGenes> -gl <geneLength>] 
+
+Parameters: <nline> <DNA/RNA> <fileName> <outDir> [optional: <GTF/GFF> <nGenes> <geneLength>]
+
+Options:
+-l --nline          <nline>         Chose your desiered sequence lines, each line has 60 neucleotides
+-d --DNA/-r --RNA   <DNA/RNA>       Chose your sequence type
+-n --name           <fileName>      Chose your output files name
+-o --out            <outDir>        Output Dir with the your virtual sequences
+
+Optional:
+-t --GTF/-f --GFF   <GTF/GFF>       Chose your if you want a gtf or gff (default: none)
+-ng --nGenes        <nGenes>        Chose your number of genes (you must specify the number of genes if you set -t option)
+-gl --geneLength    <geneLength>    Chose your genes length (default: 500)
+
+"© Saifeldeen M. Ibrahim 2023"
+"""
+usage = """Usage: GenomeScratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <outDir> [optional: -t/-f <GTF/GFF> -ng <nGenes> -gl <geneLength>]"""
+if len(sys.argv) == 1:
+    print(usage)
+    exit(0)
+elif len(sys.argv) == 2 and sys.argv[1] == "-h" or sys.argv[1] == "--help":
+    print(helptext)
+    exit(0)
+########################################## input parameters ##################################
+try:
+    linesopt = sys.argv[1]
+    if linesopt == '-l' or linesopt == '--nline':
+        pass
+    else:
+        print("[ERROR]: Invalid option <nline>")
+        exit(1)
+except:
+    print("[ERROR]: Please specify the number of lines")
+    print(usage)
+    exit(1)
+try:
+    lines = int(sys.argv[2])
+except:
+    print("[ERROR]: Please specify the number of lines")
+    print(usage)
+    exit(1)
+try:
+    typeseq = sys.argv[3]
+    if typeseq == "-d" or typeseq == "--DNA" or typeseq == "-r" or typeseq == "--RNA":
+        pass
+    else:
+        print("[ERROR]: Invalid option <DNA/RNA>")
+        exit(1)
+except:
+    print("[ERROR]: Please specify your sequence type")
+    print(usage)
+    exit(1)
+        
+try:
+    fileNameopt = sys.argv[4]
+    if fileNameopt == "-n" or fileNameopt == "--name":
+        pass
+    else:
+        print("[ERROR]: Invalid option <fileName>")
+        exit(1)
+except:
+    print("[ERROR]: Please specify your output files name")
+    print(usage)
+    exit(1)
+
+try:
+    fileName = sys.argv[5]
+except:
+    print("[ERROR]: Please specify your output files name")
+    print(usage)
+    exit(1)   
+
+try:
+    outDireopt = sys.argv[6]
+    if outDireopt == '-o' or outDireopt == '--out':
+        pass    
+    else:
+        print("[ERROR]: Invalid option <out>")
+        print(usage)
+        exit(1)
+except:
+    exit(1)
+    
+try:    
+    outDir = sys.argv[7]
+except:
+    print("[ERROR]: Please specify your output Directory")
+    print(usage)
+    exit(1)
+
+if len(sys.argv) >= 9:
+    try:
+        annofileopt = sys.argv[8]
+        if annofileopt == "-t" or annofileopt == "--GTF" or annofileopt == "-f" or annofileopt =="--GFF":
+            pass
+        else:
+            print("[ERROR]: Invalid option <GTF/GFF>")
+            exit(1)
+    except:
+        print(usage)
+        exit(1)
+    try:
+        ngenesopt = sys.argv[9]
+        if ngenesopt == "-ng" or ngenesopt == "--nGenes":
+            pass
+        else:
+            print("[ERROR]: Invalid option <nGenes>")
+            exit(1)
+    except:
+        print("[ERROR]: Please specify the number of genes")
+        print(usage)
+        exit(1)
+    try:
+        ngenes = int(sys.argv[10])
+        geneLength = 500
+    except:
+        print("[ERROR]: Please specify the number of genes")
+        print(usage)
+        exit(1)
+else:
+     pass
+if len(sys.argv) > 11:
+    try:
+        geneLengthopt = sys.argv[11]
+        if geneLengthopt == "-gl" or geneLengthopt == "--geneLength":
+            pass
+        else:
+            print("[ERROR]: Invalid option <geneLength>")
+            exit(1)
+    except:
+        print(usage)
+        exit(1)
+    try:
+        geneLength = int(sys.argv[12])
+    except:
+        pass
+else:
+    pass
+try: 
+    os.makedirs(outDir)
+except:
+    print("[ERROR]: This directory is existing")
+    print(usage)
+    exit(1)
+seqOutFile = f"{outDir}/{fileName}"
+annOuotFile = f"{outDir}/{fileName}"
+########################################## creat virtual sequence ##################################
+if linesopt == "-l" or linesopt == "--nline":
+    if lines > 0:
+        if typeseq == "-d" or typeseq == "--DNA":
+            if outDireopt == "-o" or outDireopt == "--out":
+                with open(f"{seqOutFile}.fa", "w") as ref_genome:
+                    ref_genome.write(f">virtualChr\n")  
+                    for i in range(1, lines+1):
+                        sequence = ''.join(random.choice('ACTG') for _ in range(60))
+                        ref_genome.write(f"{sequence}\n")
+            else:
+                print("[ERROR]: Invalid Parameter <out>")
+                print(usage)
+                exit(1)
+        elif typeseq == "-r" or typeseq == "--RNA":
+            if outDireopt == "-o" or outDireopt == "--out":
+                with open(f"{seqOutFile}.fa", "w") as ref_genome:
+                    ref_genome.write(f">virtualChr\n")  
+                    for i in range(1, lines+1):
+                        sequence = ''.join(random.choice('ACUG') for _ in range(60))
+                        ref_genome.write(f"{sequence}\n")
+            else:
+                print("[ERROR]: Invalid Parameter <out>")
+                print(usage)
+                exit(1)
+        else:
+            print("[ERROR]: Invalid sequence type")
+            print(usage)
+            exit(1)
+    else:
+        print("[ERROR]: Please enter the number of sequence lines")
+        print(usage)
+        exit(1)
+try:
+    if annofileopt == "-t" or annofileopt == "--GTF":
+        with open(f"{annOuotFile}.gtf", "w") as gtf_file:
+            for i in range(1, ngenes+1):
+                gene_start = random.randint(1, (60*lines))
+                gene_end = gene_start + geneLength
+                cdsStart = gene_start + random.randint(50, 200)
+                cdsEnd = gene_end - random.randint(50, 200)
+                loc = random.choice('+-')
+                gtf_file.write(f"virtualChr\tSimulation\tgene\t{gene_start}\t{gene_end}\t.\t{loc}\t.\tgene_id Gene{i}; gene_name Gene_{i};\n")
+                gtf_file.write(f"virtualChr\tSimulation\transcript\t{gene_start}\t{gene_end}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
+                gtf_file.write(f"virtualChr\tSimulation\texon\t{gene_start}\t{gene_end/2}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
+                gtf_file.write(f"virtualChr\tSimulation\texon\t{(gene_end/2)+10}\t{gene_end}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
+                gtf_file.write(f"virtualChr\tSimulation\CDS\t{cdsStart}\t{cdsEnd}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
+    elif annofileopt == "-f" or annofileopt == "--GFF":
+        with open(f"{annOuotFile}.gff", "w") as gff_file:
+            gff_file.write("##gff-version 3\n")
+            gff_file.write("##source-version Virtual\n")
+            gff_file.write("##date 2023-12-02\n")
+            gff_file.write("##comment This is a GFF file example for demonstration purposes\n")
+            for i in range(1, ngenes + 1):
+                gene_start = random.randint(1, (60 * lines))
+                gene_end = gene_start + geneLength 
+                gene_id = f"Gene{i+1}"
+                transcript_start = gene_start
+                transcript_end = gene_end
+                transcript_id = f"transcript{i+1}"
+                exon_start = gene_start
+                exon_end = gene_end
+                exon_id = f"exon{i+1}"
+                cds_start = gene_start + random.randint(50, 200)
+                cds_end = gene_end - random.randint(50, 200)
+                cds_id = f"CDS{i+1}"
+                utr1_start = gene_start
+                utr1_end = cds_start - 1
+                utr1_id = f"UTR{i+1}_5p"
+                utr2_start = cds_end + 1
+                utr2_end = gene_end
+                utr2_id = f"UTR{i+1}_3p"
+                start_codon_start = cds_start - 2
+                start_codon_end = cds_start
+                start_codon_id = f"start_codon{i+1}"
+                stop_codon_start = cds_end
+                stop_codon_end = cds_end + 2
+                stop_codon_id = f"stop_codon{i+1}"
+                loc = random.choice('+-')
+                gff_file.write(f"virtualChr\tSimulation\tgene\t{gene_start}\t{gene_end}\t.\t{loc}\t.\tID={gene_id};Name={gene_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\ttranscript\t{transcript_start}\t{transcript_end}\t.\t{loc}\t.\tID={transcript_id};Parent={gene_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\texon\t{exon_start}\t{exon_end}\t.\t{loc}\t.\tID={exon_id};Parent={transcript_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\tCDS\t{cds_start}\t{cds_end}\t.\t{loc}\t.\tID={cds_id};Parent={transcript_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\tUTR\t{utr1_start}\t{utr1_end}\t.\t{loc}\t.\tID={utr1_id};Parent={transcript_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\tUTR\t{utr2_start}\t{utr2_end}\t.\t{loc}\t.\tID={utr2_id};Parent={transcript_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\tstart_codon\t{start_codon_start}\t{start_codon_end}\t.\t{loc}\t.\tID={start_codon_id};Parent={transcript_id}\n")
+                gff_file.write(f"virtualChr\tSimulation\tstop_codon\t{stop_codon_start}\t{stop_codon_end}\t.\t{loc}\t.\tID={stop_codon_id};Parent={transcript_id}\n")
+    else:
+        pass
+except:
+    pass    
+print("Thank you for using GenomeScratch")
+print("© Saifeldeen M. Ibrahim 2023")
