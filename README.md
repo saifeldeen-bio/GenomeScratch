@@ -3,10 +3,17 @@ GenomeScratch is a user-friendly tool designed for effortlessly generating virtu
 Tailored for testing workflows and training purposes, it enables users to simulate genomic scenarios and optimize bioinformatics processes in a controlled, lightweight environment. 
 This tool is especially valuable when high-performance computing resources are scarce, allowing researchers to refine their methodologies efficiently before transitioning to real data. Whether for educational use or practical testing, GenomeScratch provides a convenient solution for genomics and bioinformatics applications.
 
+**Installation:**
+
+```bash
+git clone https://github.com/saifeldeen-bio/GenomeScratch.git
+cd GenomeScratch/
+sudo mv GenomeScratch ../path-to/usr/bin
+```
 **Usage:**
 
 ```
-genomescratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <outDir> [optional: -t/-f <GTF/GFF> -ng <nGenes> -gl <geneLength>]
+GenomeScratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <outDir> [optional: -t/-f <GTF/GFF> -ng <nGenes> -gl <geneLength>]
 ```
 
 **Parameters:**
@@ -28,7 +35,7 @@ genomescratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <outDir> [
 
 **Example Usage:**
 ```bash
-genomescratch -l 100 -d -n myGenome -o output_directory -t -ng 50 -gl 800
+GenomeScratch -l 100 -d -n myGenome -o output_directory -t -ng 50 -gl 800
 ```
 
 **Authorship:**
