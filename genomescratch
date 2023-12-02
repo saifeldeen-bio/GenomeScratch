@@ -23,6 +23,7 @@ Usage: GenomeScratch -h [manual] -l <nline> -d/-r <DNA/RNA> -n <fileName> -o <ou
 Parameters: <nline> <DNA/RNA> <fileName> <outDir> [optional: <GTF/GFF> <nGenes> <geneLength>]
 
 Options:
+-h --help           [manual]        Manual help
 -l --nline          <nline>         Chose your desiered sequence lines, each line has 60 neucleotides
 -d --DNA/-r --RNA   <DNA/RNA>       Chose your sequence type
 -n --name           <fileName>      Chose your output files name
