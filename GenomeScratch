@@ -216,7 +216,7 @@ try:
                 gtf_file.write(f"virtualChr\tSimulation\transcript\t{gene_start}\t{gene_end}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
                 gtf_file.write(f"virtualChr\tSimulation\texon\t{gene_start}\t{gene_end/2}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
                 gtf_file.write(f"virtualChr\tSimulation\texon\t{(gene_end/2)+10}\t{gene_end}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
-                gtf_file.write(f"virtualChr\tSimulation\CDS\t{cdsStart}\t{cdsEnd}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
+                gtf_file.write(f"virtualChr\tSimulation\tCDS\t{cdsStart}\t{cdsEnd}\t.\t{loc}\t.\tgene_id Gene{i}; transcript_id Transcript_{i}; exon_number 1;\n")
     elif annofileopt == "-f" or annofileopt == "--GFF":
         with open(f"{annOuotFile}.gff", "w") as gff_file:
             gff_file.write("##gff-version 3\n")
