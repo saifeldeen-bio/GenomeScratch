@@ -24,10 +24,10 @@ Parameters: <nline> <DNA/RNA> <fileName> <outDir> [optional: <GTF/GFF> <nGenes> 
 
 Options:
 -h --help           [manual]        Manual help
--l --nline          <nline>         Chose your desiered sequence lines, each line has 60 neucleotides
+-l --nline          <nline>         Chose your desiered sequence lines; each line has 60 neucleotides
 -d --DNA/-r --RNA   <DNA/RNA>       Chose your sequence type
 -n --name           <fileName>      Chose your output files name
--o --out            <outDir>        Output Dir with the your virtual sequences
+-o --out            <outDir>        Output Dir with your virtual sequences
 
 Optional:
 -t --GTF/-f --GFF   <GTF/GFF>       Chose your if you want a gtf or gff (default: none)
